@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p hahdhasd
+    p hahah
 </template>
 
 <script>

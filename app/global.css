@@ -4,3 +4,19 @@ html, body {
     padding: 0;
     margin: 0;
 }
+
+.mg-l-40 {
+  margin-left: 40px;
+}
+.mg-l-20 {
+  margin-left: 20px !important;
+}
+.mg-l-5 {
+  margin-left: 5px;
+}
+.mg-l-10 {
+  margin-left: 10px;
+}
+.mg-t-10 {
+  margin-top: 10px;
+}
