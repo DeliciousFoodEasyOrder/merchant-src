@@ -20,6 +20,8 @@
         router-link(:to="{name: 'Login'}") 登录
 </template>
 <script>
+import http from '../../utils/network/http';
+import { notify } from '../../utils/messages/notify';
 export default{
   data() {
     return {
@@ -39,9 +41,24 @@ export default{
   },
   methods: {
     submit() {
-      this.$refs['form'].validate((valid) => {
+      this.$refs['form'].validate(async (valid) => {
+        console.log(valid);              
         if (valid) {
-          this.$router.push({name: 'Login'});
+          try {
+            await http.createMerchant({
+              "merchant_id": null,
+              "email": this.form.email,
+              "phone": this.form.phone,
+              "password": this.form.password
+            });
+            notify({
+              type: 'success',
+              title: '注册成功，请登录',
+              duration: 2000
+            })
+          } catch(e) {
+            console.error(e);
+          }
         }
       });
     },
@@ -52,6 +69,8 @@ export default{
         let pattern = /\D+/g;
         if (value.length !== 11 || pattern.test(value)) {
           callback(new Error('手机号格式不正确'));
+        } else {
+          callback();
         }
       }
     },
@@ -62,6 +81,8 @@ export default{
         let pattern = /^[a-zA-Z0-9\-_]+@(?:[a-zA-Z0-9\-_]+\.)+[a-zA-Z0-9\-_]+$/;
         if (!pattern.test(value)) {
           callback(new Error('邮箱格式不正确'));
+        } else {
+          callback();
         }
       }
     },
@@ -72,12 +93,16 @@ export default{
         value = value.replace(/\s/g, '');
         if (value.length < 6) {
           callback(new Error('密码长度不能小于6位'));
+        } else {
+          callback();
         }
       }
     },
     validatePass2(rule, value, callback) {
       if (value !== this.form.password) {
         callback(new Error('密码不一致'));
+      } else {
+        callback();
       }
     }
   }
@@ -112,6 +137,7 @@ export default{
   font-weight: 400;
   font-size: 28px;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .button {

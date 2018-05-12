@@ -19,12 +19,18 @@
 <script>
 import currentOrder from './currentOrder';
 import historyOrder from './historyOrder';
+import http from '../../../utils/network/http';
+
 export default {
   data() {
     return {
       currentOrders: [1, 2, 3, 4],
       historyOrders: [1, 2, 3, 4]
     };
+  },
+  async created() {
+    const { data } = await http.getOrders(this.$store.state.merchant.merchant_id);
+    console.log(data);
   },
   components: {
     'current-order': currentOrder,

@@ -7,9 +7,11 @@ import Home from '@/components/Main/Home';
 import Table from '@/components/Main/Table';
 import Order from '@/components/Main/Order';
 
+import store from '../store/index';   
+
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/login',
@@ -25,6 +27,13 @@ export default new Router({
       path: '/main',
       name: 'Main',
       component: Main,
+      beforeEnter: (to, from, next) => {
+        if (store.state.merchant.access_token !== '') {
+          next();
+        } else {
+          next('login');
+        }
+      },
       children: [
         {
           path: 'home',
@@ -45,3 +54,5 @@ export default new Router({
     }
   ]
 });
+
+export default router;
