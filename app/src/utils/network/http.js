@@ -73,7 +73,7 @@ const http = {
 
   async addFood({ name, price, description, merchant_id: merchantId }) {
     const res = await axios.post('/api/foods', {
-      price,
+      price: parseFloat(price),
       name,
       description,
       food_id: null,

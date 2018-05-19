@@ -10,22 +10,36 @@ const mutations = {
     foods.forEach((food) => {
       foodsMap[food.food_id] = food;
     });
-    this.state.foods = foodsMap;
+    state.foods = foodsMap;
+  },
+  addFood(state, food) {
+    const foods = state.foods;
+    foods[food.food_id] = food;
+    state.foods = {...foods};
   }
 };
 
 const actions = {
-  async getFoods({state}, merchantId) {
+  async getFoods({state, commit}, merchantId) {
     try {
-      const res = await http.getFoods(merchantId);
-      console.log(res);
+      const { data: { data } } = await http.getFoods(merchantId);
+      commit('setFoods', data);
     } catch (e) {}
   },
   async addFood({state, commit}, payload) {
     try {
       const { data: { data } } = await http.addFood(payload);
-      commit('setFoods', data);
+      commit('addFood', data);
     } catch (e) {}
+  },
+  async deleteFood({state, commit}, foodId) {
+    try {
+      await http.deleteFood(foodId);
+      const foods = state.foods;
+      delete foods[foodId];
+      state.foods = {...foods};
+    } catch (e) {
+    }
   }
 };
 

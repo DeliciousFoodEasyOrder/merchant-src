@@ -5,13 +5,13 @@
       el-button(type="text" @click="showAddFoodModal").mg-l-20
         i(class="fa fa-plus fa-2x" aria-hidden="true")
     div.food-container
-      el-card(v-for="(food, index) in foods" shadow="hover" :body-style="elCardBodyStyle" :key="index").food
-        el-button(type="text" @click="deleteFoodConfirm(food.food_id)").delete-btn
+      el-card(v-for="foodId in foodIds" shadow="hover" :body-style="elCardBodyStyle" :key="foodId").food
+        el-button(type="text" @click="deleteFoodConfirm(foods[foodId].food_id)").delete-btn
           i(class="fa fa-times-circle fa-2x" aria-hidden="true")
         img.food-img(src="http://fuss10.elemecdn.com/d/04/4ab88995116d0ea8eb4dbbaa53f0ejpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
         div.food-info
-          div.food-title 招牌牛杂粉
-          div.food-price ¥ 15.3
+          div.food-title {{foods[foodId].name}}
+          div.food-price ¥ {{foods[foodId].price}}
     addFoodModal(:outerVisible="isShowAddFoodModal" @closeModal="hideAddFoodModal" @addFood="addFoodAndCloseModal")  
 </template>
 
@@ -30,17 +30,20 @@ export default {
         'box-sizing': 'border-box',
         'height': '100%'
       },
-      foods: [1, 2, 3]
     }
   },
   created() {
     this.getFoods(this.merchant_id);
   },
   computed: {
-    ...mapState('merchant', ['merchant_id'])
+    ...mapState('merchant', ['merchant_id']),
+    ...mapState('food', ['foods']),
+    foodIds() {
+      return Object.keys(this.foods);
+    }
   },
   methods: {
-    ...mapActions('food', ['addFood', 'getFoods']),
+    ...mapActions('food', ['addFood', 'getFoods', 'deleteFood']),
     showAddFoodModal() {
       this.isShowAddFoodModal = true;
     },
@@ -54,7 +57,7 @@ export default {
     async deleteFoodConfirm(foodId) {
       this.$confirm('是否删除该菜品？')
         .then(()=> {
-          console.log('jajaj');
+          this.deleteFood(foodId);
         }).catch(() => {});
     }
   }
