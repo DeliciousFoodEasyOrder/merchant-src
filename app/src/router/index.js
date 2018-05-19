@@ -57,6 +57,10 @@ const router = new Router({
           component: Food
         }
       ]
+    },
+    {
+      path: '/*',
+      redirect: '/login'
     }
   ]
 });
