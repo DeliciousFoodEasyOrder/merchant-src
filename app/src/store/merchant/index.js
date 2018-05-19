@@ -5,7 +5,7 @@ const state = {
   phone: '',
   email: '',
   access_token: ''
-}
+};
 
 const mutations = {
   setMerchant(state, {merchant_id, phone, email}) {
@@ -16,7 +16,7 @@ const mutations = {
   setToken(state, access_token) {
     state.access_token = access_token;
   }
-}
+};
 
 const actions = {
   async login({ state, commit }, merchant) {
@@ -26,12 +26,16 @@ const actions = {
       password: merchant.password
     });
     return res;
+  },
+  async getMerchant({ state, commit }, id) {
+    const res = await http.getMerchant(id);
+    return res;
   }
-}
+};
 
 export default {
   namespaced: true,
   state: state,
   actions: actions,
   mutations: mutations
-}
+};

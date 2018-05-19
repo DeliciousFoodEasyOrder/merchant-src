@@ -3,49 +3,68 @@
     div.tables-control-bar-contaienr
       div.tables-control-bar
         p
-          span.tables-account.mg-l-40 3
+          span.tables-account.mg-l-40 {{tableKeys.length}}
           span.mg-l-20 餐台
-          span.seats-account.mg-l-40 12
+          span.seats-account.mg-l-40 {{seats.length}}
           span.mg-l-20 座位
         div.add-table
-          el-button(type="text")
+          el-button(type="text" @click="addTable")
             i(class="fa fa-plus fa-3x" aria-hidden="true")
     div.tables-contaienr
-      div(v-for="(table, $index) in tables").table
+      div(v-for="(tableKey, $index) in tableKeys").table
         div.seats-control-bar
           span.table-label 餐台 {{$index + 1}}
-          el-button(type="text").mg-l-20
+          el-button(type="text" @click="addSeat({tableKey, merchant_id})").mg-l-20          
             i(class="fa fa-plus fa-2x" aria-hidden="true")
-          el-button(type="text").mg-l-20.danger
+          el-button(type="text" @click="deleteSeat(tableKey)").mg-l-20.danger
             i(class="fa fa-minus fa-2x" aria-hidden="true")
-          el-button(type="text").mg-l-20
+          el-button(type="text" @click="showQrCode").mg-l-20
             i(class="fa fa-qrcode fa-2x" aria-hidden="true")
-          el-button(type="text").mg-l-20.danger
+          el-button(type="text" @click="handleDeleteTable(tableKey)").mg-l-20.danger
             i(class="fa fa-times fa-2x" aria-hidden="true")
         div.seats-contaienr
-          el-button(circle v-for="(seat, $index) in table.seats" :key="$index").seat
-            span 1A
+          el-button(circle v-for="(seat, $index) in tables[tableKey]" :key="$index").seat
+            span {{seat.number}}
+    qrCodeModal(:outerVisible="isShowQrCode" @closeModal="hideQrCode")
 </template>
 
 <script>
+import { mapActions, mapState, mapMutations } from 'vuex';
+import qrCodeModal from './qrCodeModal';
 export default {
+  components: {
+    qrCodeModal
+  },
+  async created() {
+    await this.getSeats(this.merchant_id);
+  },
   data() {
     return {
-      tables: [
-        {
-          seats: [1, 2, 3, 4]
-        },
-        {
-          seats: [1, 2, 3, 4]
-        },
-        {
-          seats: [1, 2, 3, 4]
-        },
-        {
-          seats: [1, 2, 3, 4]
-        }
-      ]
+      isShowQrCode: false
     };
+  },
+  computed: {
+    ...mapState('merchant', ['merchant_id']),
+    ...mapState('table', ['tables', 'seats']),
+    tableKeys() {
+      return Object.keys(this.tables);
+    }
+  },
+  methods: {
+    ...mapActions('table', ['getSeats', 'addSeat', 'deleteSeat', 'deleteTable']),
+    ...mapMutations('table', ['addTable']),
+    handleDeleteTable(tableId) {
+      this.$confirm('确定删除该餐台吗？')
+        .then(() => {
+          this.deleteTable(tableId);
+        }).catch(() => {});
+    },
+    showQrCode() {
+      this.isShowQrCode = true;
+    },
+    hideQrCode() {
+      this.isShowQrCode = false;
+    }
   }
 };
 </script>

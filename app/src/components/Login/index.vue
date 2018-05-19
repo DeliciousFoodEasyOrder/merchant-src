@@ -37,14 +37,16 @@ export default{
     };
   },
   methods: {
-    ...mapActions('merchant', ['login']),
+    ...mapActions('merchant', ['login', 'getMerchant']),
     ...mapMutations('merchant', ['setToken', 'setMerchant']),
     submit() {
       this.$refs['form'].validate(async (valid) => {
         if (valid) {
           try {
-            const { data } = await this.login(this.form);
+            let { data } = await this.login(this.form);
             this.setToken(data.access_token);
+            let res = await this.getMerchant(this.form.id);
+            this.setMerchant(res);
             notify({
               type: 'success',
               title: '登录成功',

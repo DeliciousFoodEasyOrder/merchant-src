@@ -6,8 +6,9 @@ import Main from '@/components/Main';
 import Home from '@/components/Main/Home';
 import Table from '@/components/Main/Table';
 import Order from '@/components/Main/Order';
+import Food from '@/components/Main/Food';
 
-import store from '../store/index';   
+import store from '../store/index';
 
 Vue.use(Router);
 
@@ -49,6 +50,11 @@ const router = new Router({
           path: 'order',
           name: 'Order',
           component: Order
+        },
+        {
+          path: 'food',
+          name: 'Food',
+          component: Food
         }
       ]
     }

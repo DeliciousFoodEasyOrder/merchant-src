@@ -7,16 +7,16 @@
               p.app-name 好吃易点商家控制台
               p.merchant-name 传说中的那碗粉
     el-menu.sider
-        el-menu-item(index="1" @click="goTo('Home')")
+        el-menu-item(index="1" @click="goTo('home')")
             i(class="fa fa-home fa-lg fa-fw" aria-hidden="true")
             span.mg-l-5 主页
-        el-menu-item(index="2" @click="goTo('Table')")
+        el-menu-item(index="2" @click="goTo('table')")
             i(class="fa fa-cutlery fa-lg fa-fw" aria-hidden="true")
             span.mg-l-5 餐台管理
-        el-menu-item(index="3" @click="goTo('')")
+        el-menu-item(index="3" @click="goTo('food')")
             i(class="fa fa-spoon fa-lg fa-fw" aria-hidden="true")
             span.mg-l-5 菜品管理
-        el-menu-item(index="4" @click="goTo('Order')")
+        el-menu-item(index="4" @click="goTo('order')")
             i(class="fa fa-list-alt fa-lg fa-fw" aria-hidden="true")
             span.mg-l-5 订单
     router-view.content
