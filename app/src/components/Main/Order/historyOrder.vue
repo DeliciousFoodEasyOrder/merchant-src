@@ -1,23 +1,31 @@
 <template lang="pug">
   div.history-order
     div.order-info
-      el-button(circle) 1D
-      span.mg-l-10.order-id 订单号 1111111111111111111
+      el-button(circle) 座位号 {{historyOrder.seat_id}}
+      span.mg-l-10.order-id 订单号 {{historyOrder.order_id}}
       div.place-order-time.mg-t-10
-        span 下单于 2018-01-01 14:00
+        span 下单于 {{historyOrder.order_time}}
       div.accomplish-order-time
-        span 完成于 2018-01-01 14:01
+        span 完成于 {{historyOrder.complete_time}}
     div.food-imgs-list
       img.food-img.mg-l-20(src="http://fuss10.elemecdn.com/d/04/4ab88995116d0ea8eb4dbbaa53f0ejpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
 </template>
 
 <script>
+// import http from '../../../utils/network/http';
 export default {
+  props: ['historyOrder'],
+  // async created() {
+  //   await http.updateOrder(9, 2);
+  // },
   data() {
     return {
       data: []
     };
-  }
+  },
+  // filters: {
+    
+  // }
 };
 </script>
 

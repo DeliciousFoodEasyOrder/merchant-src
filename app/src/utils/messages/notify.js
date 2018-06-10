@@ -1,4 +1,4 @@
-import { Notification } from 'element-ui'
+import { Notification } from 'element-ui';
 
 export function notify({type, title, message, duration}) {
   try {

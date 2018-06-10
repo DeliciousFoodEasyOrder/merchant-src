@@ -18,14 +18,12 @@
             i(class="fa fa-plus fa-2x" aria-hidden="true")
           el-button(type="text" @click="deleteSeat(tableKey)").mg-l-20.danger
             i(class="fa fa-minus fa-2x" aria-hidden="true")
-          el-button(type="text" @click="showQrCode").mg-l-20
-            i(class="fa fa-qrcode fa-2x" aria-hidden="true")
           el-button(type="text" @click="handleDeleteTable(tableKey)").mg-l-20.danger
             i(class="fa fa-times fa-2x" aria-hidden="true")
         div.seats-contaienr
-          el-button(circle v-for="(seat, $index) in tables[tableKey]" :key="$index").seat
+          el-button(circle v-for="(seat, $index) in tables[tableKey]" :key="$index" @click="showQrCode(seat)").seat
             span {{seat.number}}
-    qrCodeModal(:outerVisible="isShowQrCode" @closeModal="hideQrCode")
+    qrCodeModal(:outerVisible="isShowQrCode" :seat="seat" @closeModal="hideQrCode")
 </template>
 
 <script>
@@ -40,7 +38,8 @@ export default {
   },
   data() {
     return {
-      isShowQrCode: false
+      isShowQrCode: false,
+      seat: {},
     };
   },
   computed: {
@@ -59,8 +58,9 @@ export default {
           this.deleteTable(tableId);
         }).catch(() => {});
     },
-    showQrCode() {
+    showQrCode(seat) {
       this.isShowQrCode = true;
+      this.seat = seat;
     },
     hideQrCode() {
       this.isShowQrCode = false;

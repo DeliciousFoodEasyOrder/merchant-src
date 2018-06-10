@@ -23,16 +23,31 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import { mapActions } from 'vuex';
 export default {
+  created() {
+    this.timer = setInterval(this.pollingOrders, 1000);
+  },
+  computed: {
+    ...mapState('merchant', ['merchant_id']),
+  },
   data() {
     return {
-      data: null
+      timer: null,
     };
   },
   methods: {
+    ...mapActions('order', ['getOrders']),
     goTo(routeName) {
       this.$router.push(routeName);
-    }
+    },
+    pollingOrders() {
+      this.getOrders(this.merchant_id);
+    },
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   }
 };
 </script>

@@ -1,26 +1,30 @@
 <template lang="pug">
   div.current-order
-    el-button(circle) 1D
-    span.order-id.mg-l-10 订单号 1111111111111111
+    el-button(circle) 座位号 {{ currentOrder.seat_id }}
+    span.order-id.mg-l-10 订单号 {{ currentOrder.order_id }}
     div.mg-t-10
-      span.ordered-time 2018-01-12 12:20
-      span.food-kinds 2个菜
+      span.ordered-time {{ currentOrder.order_time }}
+      span.food-kinds {{currentOrder.foods.length}}个菜
     div.food-list.mg-t-10
-      div.food
+      div.food(v-for="(food, $index) in currentOrder.foods")
         img.food-img(src="http://fuss10.elemecdn.com/d/04/4ab88995116d0ea8eb4dbbaa53f0ejpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
-        span.food-name.mg-l-20 桂林米粉
-      div.food
-        img.food-img(src="https://fuss10.elemecdn.com/9/bf/43e73ac46499246c16555337a2127jpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
-        span.food-name.mg-l-20 冰淇淋
-    el-button.btn(type="danger") 完成
+        span.food-name.mg-l-20 {{food.name}}
+    el-button.btn(type="danger", @click="updateOrder(currentOrder.order_id, 1)") 完成
 </template>
 
 <script>
+import http from '../../../utils/network/http';
 export default {
+  props: ['currentOrder'],
   data() {
     return {
       data: []
     };
+  },
+  methods: {
+    updateOrder(orderId, status) {
+      http.updateOrder(orderId, status);
+    }
   }
 };
 </script>

@@ -94,6 +94,13 @@ const http = {
   async deleteFood(foodId) {
     const res = await axios.delete(`/api/foods/${foodId}`);
     return res;
+  },
+
+  async updateOrder(orderId, status) {
+    const res = await axios.patch(`/api/orders/${orderId}`, {
+      status
+    });
+    return res;
   }
 };
 

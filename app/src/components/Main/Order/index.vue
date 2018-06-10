@@ -3,38 +3,39 @@
     div.current-orders-container
       div.message-area
         span.current-orders-label 当前订单
-          span.current-orders-num.mg-l-10 3
+          span.current-orders-num.mg-l-10 {{ (processingOrders && processingOrders.length) || 0}}
         span.message.mg-l-20
           i(class="fa fa-commenting-o fa-lg" aria-hidden="true")
           span.mg-l-5 有新订单了！
       div.current-orders
-        current-order(v-for="(currentOrder, $index) in currentOrders" :key="$index")
+        current-order(v-for="(order, $index) in processingOrders" :currentOrder="order" :key="$index")
     div.history-orders-container.mg-t-10
       div.message-area
         span.current-orders-label 历史订单
       div.history-orders
-        history-order(v-for="(historyOrder, $index) in historyOrders" :key="$index").mg-t-10
+        history-order(v-for="(order, $index) in completedOrders" :key="$index" :historyOrder="order").mg-t-10
 </template>
 
 <script>
 import currentOrder from './currentOrder';
 import historyOrder from './historyOrder';
 import http from '../../../utils/network/http';
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      currentOrders: [1, 2, 3, 4],
-      historyOrders: [1, 2, 3, 4]
-    };
+  computed: {
+    ...mapState('merchant', ['merchant_id']),
+    ...mapState('order', ['completedOrders', 'processingOrders']),
   },
   async created() {
-    const { data } = await http.getOrders(this.$store.state.merchant.merchant_id);
-    console.log(data);
+    await this.getOrders(this.merchant_id);
   },
   components: {
     'current-order': currentOrder,
     'history-order': historyOrder
+  },
+  methods: {
+    ...mapActions('order', ['getOrders'])
   }
 };
 </script>
