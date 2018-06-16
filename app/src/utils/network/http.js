@@ -19,11 +19,12 @@ axios.interceptors.response.use(function(response) {
   // 对响应数据做点什么
   return response;
 }, function(error) {
-  const { msg } = error.response.data;
+  const { msg, data: { error_description: detail } } = error.response.data;
   notify({
     type: 'error',
     title: msg,
-    duration: 1000
+    duration: 1000,
+    message: detail
   });
   // 对响应错误做点什么
   return Promise.reject(error);
@@ -100,6 +101,11 @@ const http = {
     const res = await axios.patch(`/api/orders/${orderId}`, {
       status
     });
+    return res;
+  },
+
+  async updateMerchant(merchantId, payload) {
+    const res = await axios.patch(`/api/merchants/${merchantId}`, payload);
     return res;
   }
 };

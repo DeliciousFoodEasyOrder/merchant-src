@@ -6,7 +6,7 @@
         span 好吃易点
       el-form(:model="form" :rules="rules" ref="form")
         el-form-item(prop="id")
-          el-input(v-model="form.id" type="text" placeholder="请输入用户账户")
+          el-input(v-model="form.id" type="text" placeholder="请输入手机号")
         el-form-item(prop="password")
           el-input(v-model="form.password" type="password" placeholder="请输入用户密码")
         el-form-item

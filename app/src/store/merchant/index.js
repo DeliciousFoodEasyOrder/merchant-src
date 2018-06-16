@@ -4,17 +4,23 @@ const state = {
   merchant_id: '',
   phone: '',
   email: '',
-  access_token: ''
+  access_token: '',
+  isOnline: 0,
+  address: '',
+  tradeName: ''
 };
 
 const mutations = {
-  setMerchant(state, {merchant_id, phone, email}) {
-    state.merchant_id = merchant_id;
+  setMerchant(state, {merchant_id: merchantId, phone, email, on, name, address}) {
+    state.merchant_id = merchantId;
     state.phone = phone;
     state.email = email;
+    state.isOnline = on !== 1;
+    state.address = address;
+    state.tradeName = name;
   },
-  setToken(state, access_token) {
-    state.access_token = access_token;
+  setToken(state, accessToken) {
+    state.access_token = accessToken;
   }
 };
 
@@ -29,6 +35,13 @@ const actions = {
   },
   async getMerchant({ state, commit }, id) {
     const res = await http.getMerchant(id);
+    return res;
+  },
+  async updateMerchant({ state, commit }, payload) {
+    const { id, patch } = payload;
+    const res = await http.updateMerchant(id, patch);
+    const { data: { data } } = res;
+    commit('setMerchant', data);
     return res;
   }
 };

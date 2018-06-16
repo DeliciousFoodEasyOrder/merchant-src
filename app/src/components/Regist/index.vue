@@ -9,6 +9,10 @@
           el-input(v-model="form.phone" type="text" placeholder="手机号码")
         el-form-item(prop="email")
           el-input(v-model="form.email" type="text" placeholder="邮箱")
+        el-form-item(prop="tradeName")
+          el-input(v-model="form.tradeName" type="text" placeholder="店名(选填)")
+        el-form-item(prop="address")
+          el-input(v-model="form.address" type="text" placeholder="地址(选填)")  
         el-form-item(prop="password")
           el-input(v-model="form.password" type="password" placeholder="密码")
         el-form-item(prop="reEnterPassword")
@@ -28,6 +32,8 @@ export default{
       form: {
         id: '',
         phone: '',
+        tradeName: '',
+        address: '',
         password: '',
         reEnterPassword: ''
       },
@@ -55,7 +61,8 @@ export default{
               type: 'success',
               title: '注册成功，请登录',
               duration: 2000
-            })
+            });
+            this.$router.push('login');
           } catch(e) {
             console.error(e);
           }
@@ -114,8 +121,7 @@ export default{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  overflow: scroll;
 }
 
 .container {
