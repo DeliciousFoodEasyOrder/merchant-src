@@ -4,7 +4,7 @@
       div.message-area
         span.current-orders-label 当前订单
           span.current-orders-num.mg-l-10 {{ (processingOrders && processingOrders.length) || 0}}
-        span.message.mg-l-20
+        span.message.mg-l-20(v-if="processingOrders.length > 0")
           i(class="fa fa-commenting-o fa-lg" aria-hidden="true")
           span.mg-l-5 有新订单了！
       div.current-orders
