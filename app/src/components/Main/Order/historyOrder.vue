@@ -8,7 +8,7 @@
       div.accomplish-order-time
         span 完成于 {{historyOrder.complete_time}}
     div.food-imgs-list
-      img.food-img.mg-l-20(src="http://fuss10.elemecdn.com/d/04/4ab88995116d0ea8eb4dbbaa53f0ejpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
+      img.food-img.mg-l-20(v-for="(food, $index) in historyOrder.foods" :src="`/api/${food.icon_url}`")
 </template>
 
 <script>
