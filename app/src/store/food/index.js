@@ -16,6 +16,9 @@ const mutations = {
     const foods = state.foods;
     foods[food.food_id] = food;
     state.foods = {...foods};
+  },
+  updateFood(state, food) {
+    state.foods[food.food_id] = food;
   }
 };
 
@@ -30,6 +33,7 @@ const actions = {
     try {
       const { data: { data } } = await http.addFood(payload);
       commit('addFood', data);
+      return data;
     } catch (e) {}
   },
   async deleteFood({state, commit}, foodId) {

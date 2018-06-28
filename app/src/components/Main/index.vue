@@ -1,7 +1,8 @@
 <template lang="pug">
   div.main
     el-menu(mode="horizontal").header
-      el-menu-item(index="1000").logo
+      el-menu-item(index="1000").logo-container
+        img(:src="`/api/${icon_url}`").logo
       el-menu-item(index="2000").title
         div.container
           p.app-name 好吃易点商家控制台
@@ -32,7 +33,7 @@ export default {
     this.timer = setInterval(this.pollingOrders, 1000);
   },
   computed: {
-    ...mapState('merchant', ['merchant_id', 'tradeName', 'isOnline']),
+    ...mapState('merchant', ['merchant_id', 'tradeName', 'isOnline', 'icon_url']),
   },
   data() {
     return {
@@ -77,12 +78,15 @@ export default {
       align-items: center;
         border-bottom-color: transparent !important;
     }
-    .logo {
-        width: 100px;
+    .logo-container {
         border-bottom-color: transparent !important;
-        background: url('../../assets/logo.jpeg');
+        /* background: url('../../assets/logo.jpeg');
         background-size: cover;
-        background-repeat: no-repeat;
+        background-repeat: no-repeat; */
+    }
+    .logo {
+      width: 100px;
+      height: 65px;
     }
     .title {
         line-height: 30px !important;

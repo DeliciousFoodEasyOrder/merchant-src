@@ -7,20 +7,25 @@ const state = {
   access_token: '',
   isOnline: 0,
   address: '',
-  tradeName: ''
+  tradeName: '',
+  iconUrl: ''
 };
 
 const mutations = {
-  setMerchant(state, {merchant_id: merchantId, phone, email, on, name, address}) {
+  setMerchant(state, {merchant_id: merchantId, phone, email, on, name, address, icon_url: iconUrl}) {
     state.merchant_id = merchantId;
     state.phone = phone;
     state.email = email;
     state.isOnline = on !== 1;
     state.address = address;
     state.tradeName = name;
+    state.icon_url = iconUrl;
   },
   setToken(state, accessToken) {
     state.access_token = accessToken;
+  },
+  setIcon(state, iconUrl) {
+    state.icon_url = iconUrl;
   }
 };
 

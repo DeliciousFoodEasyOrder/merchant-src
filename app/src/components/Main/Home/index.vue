@@ -19,7 +19,24 @@
         </el-form-item>
         <el-form-item label="是否上线" prop="isOnline">
           <el-switch v-model="merchantInfo.isOnline"></el-switch>
-        </el-form-item> 
+        </el-form-item>
+        <el-form-item label="商家图片">
+          el-upload(
+            class="upload-demo"
+            :action="uploadUrl"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            multiple
+            :limit="1"
+            :headers="headers"
+            :on-exceed="handleExceed"
+            :on-success="handleSuccess"
+            :before-upload="handleBefore"
+            name="uploadFile"
+            :file-list="fileList")
+            el-button(size="small" type="primary") 点击上传
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeModal">关闭</el-button>
@@ -29,7 +46,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 import { mapState } from 'vuex';
 export default {
   data() {
@@ -40,13 +57,23 @@ export default {
         tradeName: '',
         isOnline: false,
       },
+      fileList: [],
     }
   },
   computed: {
-    ...mapState('merchant', ['merchant_id', 'address', 'tradeName', 'isOnline']),
+    ...mapState('merchant', ['merchant_id', 'address', 'tradeName', 'isOnline', 'access_token']),
+    uploadUrl() {
+      return `/api/merchants/${this.merchant_id}/icon`;
+    },
+    headers() {
+      return {
+        Authorization: `Bearer ${this.access_token}`,
+      }
+    }
   },
   methods: {
     ...mapActions('merchant', ['updateMerchant']),
+    ...mapMutations('merchant', ['setIcon']),
     closeModal() {
       this.isModalVisible = false;
       this.$refs.merchantInfoForm.clearValidate();
@@ -73,6 +100,25 @@ export default {
           this.closeModal();
         }
       });
+    },
+    handleRemove(file, fileList) {
+      // console.log(file, fileList);
+    },
+    handlePreview(file) {
+      // console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    handleSuccess(response) {
+      const { data: { icon_url = ''} } = response;
+      this.setIcon(icon_url);
+    },
+    handleBefore(file) {
+      // console.log(file);
     }
   }
 };

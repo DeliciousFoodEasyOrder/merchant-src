@@ -72,13 +72,14 @@ const http = {
     return res;
   },
 
-  async addFood({ name, price, description, merchant_id: merchantId }) {
+  async addFood({ name, price, description, merchant_id: merchantId, icon_url: iconUrl }) {
     const res = await axios.post('/api/foods', {
       price: parseFloat(price),
       name,
       description,
       food_id: null,
-      merchant_id: merchantId
+      merchant_id: merchantId,
+      icon_url: iconUrl
     });
     return res;
   },

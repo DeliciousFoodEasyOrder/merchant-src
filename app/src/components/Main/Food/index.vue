@@ -8,7 +8,7 @@
       el-card(v-for="foodId in foodIds" shadow="hover" :body-style="elCardBodyStyle" :key="foodId").food
         el-button(type="text" @click="deleteFoodConfirm(foods[foodId].food_id)").delete-btn
           i(class="fa fa-times-circle fa-2x" aria-hidden="true")
-        img.food-img(src="http://fuss10.elemecdn.com/d/04/4ab88995116d0ea8eb4dbbaa53f0ejpeg.jpeg?imageMogr2/thumbnail/720x720/format/webp/quality/85")
+        img.food-img(:src="`/api/${foods[foodId].icon_url}`")
         div.food-info
           div.food-title {{foods[foodId].name}}
           div.food-price ¥ {{foods[foodId].price}}
@@ -50,8 +50,9 @@ export default {
     hideAddFoodModal() {
       this.isShowAddFoodModal = false;
     },
-    async addFoodAndCloseModal(foodInfo) {
-      await this.addFood({...foodInfo, merchant_id: this.merchant_id});
+    async addFoodAndCloseModal(foodInfo, upload) {
+      const res = await this.addFood({...foodInfo, merchant_id: this.merchant_id}) || {};
+      upload(res.food_id);
       this.hideAddFoodModal();
     },
     async deleteFoodConfirm(foodId) {
@@ -85,7 +86,8 @@ export default {
     position: relative;
   }
   .food-img {
-    width: 40%;
+    width: 120px;
+    height: 120px;
     float: left;
     margin-right: 20px;    
   }
