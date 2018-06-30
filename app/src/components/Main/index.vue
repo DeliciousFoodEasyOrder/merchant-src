@@ -2,7 +2,7 @@
   div.main
     el-menu(mode="horizontal").header
       el-menu-item(index="1000").logo-container
-        img(:src="`/api/${icon_url}`").logo
+        img(:src="icon_url !== '' ? `/api/${icon_url}` : '/static/images/logo.jpeg'").logo
       el-menu-item(index="2000").title
         div.container
           p.app-name 好吃易点商家控制台

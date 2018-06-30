@@ -7,7 +7,7 @@
       span.food-kinds {{currentOrder.foods.length}}个菜
     div.food-list.mg-t-10
       div.food(v-for="(food, $index) in currentOrder.foods")
-        img.food-img(:src="`/api/${food.icon_url}`")
+        img.food-img(:src="food.icon_url !== '' ? `/api/${food.icon_url}` : '/static/images/food.jpeg'")
         span.food-name.mg-l-20 {{food.name}}
     el-button.btn(type="danger", @click="updateOrder(currentOrder.order_id, 1)") 完成
 </template>

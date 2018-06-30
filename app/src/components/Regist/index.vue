@@ -55,7 +55,9 @@ export default{
               "merchant_id": null,
               "email": this.form.email,
               "phone": this.form.phone,
-              "password": this.form.password
+              "password": this.form.password,
+              "name": this.form.tradeName,
+              "address": this.form.address,
             });
             notify({
               type: 'success',

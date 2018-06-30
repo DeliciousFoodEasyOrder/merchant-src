@@ -8,7 +8,7 @@
       div.accomplish-order-time
         span 完成于 {{historyOrder.complete_time}}
     div.food-imgs-list
-      img.food-img.mg-l-20(v-for="(food, $index) in historyOrder.foods" :src="`/api/${food.icon_url}`")
+      img.food-img.mg-l-20(v-for="(food, $index) in historyOrder.foods" :src="food.icon_url !== '' ? `/api/${food.icon_url}` : '/static/images/food.jpeg'")
 </template>
 
 <script>

@@ -42,9 +42,18 @@ const actions = {
     const promises = [];
     toDeleteSeats.forEach(({seat_id: seatId}) => {
       try {
-        var promise = http.deleteSeat(seatId);
+        const promise = http.deleteSeat(seatId);
         promises.push(promise);
+        const seats = state.seats;
+        for (let i = seats.length - 1; i >= 0; i--) {
+          if (seats[i].seat_id === seatId) {
+            seats.splice(i, 1);
+            break;
+          }
+        }
+        state.seats = [...seats];
       } catch (e) {
+        console.log(e);
       }
     });
     await Promise.all(promises);

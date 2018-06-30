@@ -8,7 +8,7 @@
       el-card(v-for="foodId in foodIds" shadow="hover" :body-style="elCardBodyStyle" :key="foodId").food
         el-button(type="text" @click="deleteFoodConfirm(foods[foodId].food_id)").delete-btn
           i(class="fa fa-times-circle fa-2x" aria-hidden="true")
-        img.food-img(:src="`/api/${foods[foodId].icon_url}`")
+        img.food-img(:src="foods[foodId].icon_url !== '' ? `/api/${foods[foodId].icon_url}` : '/static/images/food.jpeg'")
         div.food-info
           div.food-title {{foods[foodId].name}}
           div.food-price ¥ {{foods[foodId].price}}
